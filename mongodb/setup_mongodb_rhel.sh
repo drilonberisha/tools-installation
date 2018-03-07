@@ -84,10 +84,17 @@ echo "========================================================================"
 }
 
 function remove_mongo {
+  echo "Stoping Services"
+  sudo systemctl stop mongod
+  echo "Removing Services"
   sudo yum erase $(rpm -qa | grep mongodb-org) -y
+  echo "Removing Log Folder"
   sudo rm -r /var/log/mongodb
+  echo "Removing Lib Folder"
   sudo rm -r /var/lib/mongo
+  echo "Removing Config File"
   sudo rm -r /etc/mongod.conf*
+  echo "Removing TMP"
   sudo rm -r /tmp/mongo*
 }
 
