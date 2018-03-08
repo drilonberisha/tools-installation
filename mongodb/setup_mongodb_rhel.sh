@@ -91,6 +91,7 @@ function remove_mongo {
   sudo rm -r /etc/mongod.conf*
   echo "Removing TMP"
   sudo rm -r /tmp/mongo*
+  sudo rm -r /etc/yum.repos.d/mongodb.repo
 }
 
 # Show Menu
