@@ -10,6 +10,8 @@ function install_mongo {
 
 echo "Add following content in yum repository configuration"
 
+sudo rm -r /etc/yum.repos.d/mongodb.repo
+
 sudo echo '
 [MongoDB]
 name=MongoDB Repository
