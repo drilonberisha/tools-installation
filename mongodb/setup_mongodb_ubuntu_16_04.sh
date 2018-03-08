@@ -1,28 +1,24 @@
 #!/bin/bash
-#title           :setup_mongodb_rhel.sh
-#description     :Script will install MongoDB.
-#author		       :Drilon Berisha
+#title           :setup_mongodb_ubuntu_16_04.sh
+#description     :Script will install MongoDB Ubuntu 16.04.
+#author		     :Drilon Berisha
 #version         :0.1
-#usage		      :./setup_mongodb_rhel.sh install|remove
+#usage		     :./setup_mongodb_ubuntu_16_04.sh install|remove
 #==============================================================================
 
 function install_mongo {
 
-echo "Add following content in yum repository configuration"
+# Import the Public Key used by the Ubuntu Package Manager
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
 
-sudo echo '
-[MongoDB]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
-' > /etc/yum.repos.d/mongodb.repo
+# Create a file list for mongoDB to fetch the current repository
+sudo echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
-sudo yum repolist
+# Update the Ubuntu Packages
+sudo apt update 
 
-echo "Install Mongo"
-sudo yum install mongodb-org -y
+# Install MongoDB
+sudo apt install mongodb-org -y
 
 echo "Configure Mongo to startup"
 sudo systemctl enable mongod
@@ -87,11 +83,11 @@ function remove_mongo {
   echo "Stoping Services"
   sudo systemctl stop mongod
   echo "Removing Services"
-  sudo yum erase $(rpm -qa | grep mongodb-org) -y
+  sudo apt-get purge mongodb-org* -y
   echo "Removing Log Folder"
   sudo rm -r /var/log/mongodb
   echo "Removing Lib Folder"
-  sudo rm -r /var/lib/mongo
+  sudo rm -r /var/lib/mongodb
   echo "Removing Config File"
   sudo rm -r /etc/mongod.conf*
   echo "Removing TMP"
