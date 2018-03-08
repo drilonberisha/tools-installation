@@ -12,14 +12,7 @@ echo "Add following content in yum repository configuration"
 
 sudo rm -r /etc/yum.repos.d/mongodb.repo
 
-sudo echo '
-[MongoDB]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
-' > /etc/yum.repos.d/mongodb.repo
+sudo cp mongodb34.repo /etc/yum.repos.d/mongodb34.repo
 
 sudo yum repolist
 
